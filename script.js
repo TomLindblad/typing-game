@@ -1,5 +1,9 @@
 // Variables for the DOM elements
 let score = 0;
+const wordText = document.getElementById("word");
+const scoreText = document.getElementById("score");
+let inputText = document.getElementById("text")
+
 
 
 
@@ -28,13 +32,28 @@ const words = [
 
 addWordToDOM();
 
-
 function addWordToDOM(){
-  newWord = Math.floor(Math.random() * words.length);
-  console.log(newWord);
+  newWord = Math.floor(Math.random() * words.length); 
+  newWord = words[newWord];
+  wordText.textContent = newWord; 
 }
 
 function updateScore(){
   score++;
-  document.getElementById("score").textContent = score;
+  scoreText.textContent = score;
 }
+
+function resetText(){
+  inputText.value = "";  
+}
+
+inputText.addEventListener("input", function( e) {
+  let myText = e.target.value;
+
+  if (myText == newWord){
+    updateScore();
+    addWordToDOM();
+    resetText();
+  }
+
+});
