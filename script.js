@@ -1,4 +1,6 @@
 // Variables for the DOM elements
+let score = 0;
+
 
 
 // Array
@@ -23,3 +25,16 @@ const words = [
   "loving",
   "north",
 ];
+
+addWordToDOM();
+
+
+function addWordToDOM(){
+  newWord = Math.floor(Math.random() * words.length);
+  console.log(newWord);
+}
+
+function updateScore(){
+  score++;
+  document.getElementById("score").textContent = score;
+}
