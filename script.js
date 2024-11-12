@@ -1,14 +1,16 @@
 // Variables for the DOM elements
-let score = 0;
-let time = 10; //starttime.
-let countSpeed = 1000; // speed of the countdown in milliseconds. 
 const wordText = document.getElementById("word"); // new word display.
 const scoreText = document.getElementById("score"); // scoretext element.
 let inputText = document.getElementById("text"); //input element.
 let timerText = document.getElementById("time"); //timetext element.
 const settingsbtn = document.getElementById("settings-btn"); //settingsbutton.
 const settings = document.getElementById("settings"); //settings menu.
-let ishidden = false;
+const restartScreen = document.getElementById("end-game-container"); // Game over screen.
+
+let score = 0;
+let time = 5; //starttime.
+let countSpeed = 1000; // speed of the countdown in milliseconds. 
+let ishidden = false; // bool if settingsmenu is or is not hidden. 
 
 // Array
 const words = [
@@ -42,9 +44,10 @@ function addWordToDOM(){
   newWord = Math.floor(Math.random() * words.length); 
   newWord = words[newWord];
   wordText.textContent = newWord; 
+  text.focus(); // makes the input activ after pushing restart button. 
 }
 
-//updates the score and the extra seconds.
+//updates the score and adds the extra seconds.
 function updateScore(){
   score++;
   scoreText.textContent = score;
@@ -57,10 +60,20 @@ function resetText(){
   inputText.value = "";  
 }
 
-function hideSettings(){
-  settings.classList.toggle(".settings.hide");
-}
+function gameOver(){
+  clearInterval(countdown);
+  text.disabled = true;
 
+  //Gameover screen stuff. 
+  restartScreen.style.display = "block";
+  let btn = document.createElement("button");
+  btn.innerHTML = "Restart";
+  restartScreen.appendChild(btn);
+
+  btn.addEventListener("click", function(){
+    location.reload();;
+  });
+}
 
 inputText.addEventListener("input", function( e) {
   let myText = e.target.value;
@@ -93,9 +106,7 @@ function timer(){
 
   //if timer is 0 or less, stop the timer and disable the inputfield. 
   if(time <= 0){
-    clearInterval(countdown);
-    text.disabled = true;
-    document.getElementById("end-game-container").style.display = "block";
+    gameOver();
   }
 
   else {return;}
