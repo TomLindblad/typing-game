@@ -6,11 +6,13 @@ let timerText = document.getElementById("time"); //timetext element.
 const settingsbtn = document.getElementById("settings-btn"); //settingsbutton.
 const settings = document.getElementById("settings"); //settings menu.
 const restartScreen = document.getElementById("end-game-container"); // Game over screen.
+const difficulty = document.getElementById("difficulty"); //difficulty input.
 
 let score = 0;
 let time = 5; //starttime.
 let countSpeed = 1000; // speed of the countdown in milliseconds. 
 let ishidden = false; // bool if settingsmenu is or is not hidden. 
+
 
 // Array
 const words = [
@@ -35,14 +37,14 @@ const words = [
   "north",
 ];
 
-const countdown = setInterval(timer, countSpeed);
+let countdown = setInterval(timer, countSpeed);
 addWordToDOM();
 
 function addWordToDOM(){
   newWord = Math.floor(Math.random() * words.length); 
   newWord = words[newWord];
   wordText.textContent = newWord; 
-  text.focus(); // makes the input activ after pushing restart button. 
+  text.focus(); //focus on the inputfield after pushing restartbutton so you can start writing without clicking the inputfield.  
 }
 
 //updates the score and adds the extra seconds.
@@ -58,12 +60,30 @@ function resetText(){
   inputText.value = "";  
 }
 
+function changeDifficulty(value){
+  switch (value) {
+    case "easy": 
+      console.log("easy");
+      countSpeed = 1500; 
+      break;
+    case "medium": 
+      console.log("normal");
+      countSpeed = 1000;
+      break;
+    case "hard": 
+      console.log("hard");
+      countSpeed = 100;
+      break;
+}
+  console.log(countSpeed)
+};
+
 function gameOver(){
   clearInterval(countdown);
   text.disabled = true;
 
-  //Gameover screen stuff. 
-  restartScreen.style.display = "block";
+  //Gameover screen create stuff. 
+  restartScreen.style.display = "flex";
   let btn = document.createElement("button");
   btn.innerHTML = "Restart";
   let h2 = document.createElement("h2");
@@ -102,6 +122,11 @@ settingsbtn.addEventListener("click", function() {
   else{
     settings.style.transform = "translateY(0%)";
   }
+});
+
+difficulty.addEventListener("change", function(e){
+  let value = e.target.value;
+  changeDifficulty(value);
 });
 
 //the countdown timer. 
