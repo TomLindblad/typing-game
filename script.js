@@ -11,9 +11,11 @@ const difficulty = document.getElementById("difficulty"); //difficulty input.
 let score = 0; //current score
 let scoreGain = 1; //score gained when right word is written. 
 let time = 10; //starttime.
+let timeGain = 5; // extra time gained when right word is written.
 let countSpeed = 1000; // speed of the countdown in milliseconds. 
 let ishidden = false; // bool if settingsmenu is or is not hidden. 
 let countdown;
+let newWord = "start"; //first word for starting the game. 
 
 // Array
 const words = [
@@ -38,26 +40,27 @@ const words = [
   "north",
 ];
 
-startGame();
-
+wordText.textContent = newWord;
+text.focus();  //focus on the inputfield after pressing the restart-button/reloading page. 
 
 function startGame(){
   countdown = setInterval(timer, countSpeed);
+  resetText();
   addWordToDOM();
 }
 
+//adds a new word when correct spelling.
 function addWordToDOM(){
   newWord = Math.floor(Math.random() * words.length); 
   newWord = words[newWord];
   wordText.textContent = newWord; 
-  text.focus(); //focus on the inputfield after pushing restartbutton so you can start writing without clicking the inputfield.  
 }
 
 //updates the score and adds the extra seconds.
 function updateScore(){
   score = score + scoreGain;
   scoreText.textContent = score;
-  time = time + 5;
+  time = time + timeGain;
   timerText.textContent = `${time}s`;
 }
 
@@ -69,22 +72,29 @@ function resetText(){
 function changeDifficulty(value){
   switch (value) {
     case "easy": 
-      countSpeed = 1000; 
+      //countSpeed = 1000; 
+      wordText.style.transform = "rotateY(0deg)"
+      inputText.style.color = "black";
+      scoreGain = 1;
+      timeGain = 5;
       break;
     case "medium": 
       //countSpeed = 600;
+      wordText.style.transform = "rotateY(0deg)"
+      inputText.style.color = "black";
       scoreGain = 2;
+      timeGain = 3;
       break;
     case "hard": 
       //countSpeed = 300;
       wordText.style.transform = "rotateY(180deg)"
       inputText.style.color = "white";
       scoreGain = 3;
+      timeGain = 3;
       break;
 }
-  console.log(countSpeed)
-  clearInterval(countdown);
-  countdown = setInterval(timer, countSpeed);
+  //clearInterval(countdown);
+  //countdown = setInterval(timer, countSpeed);
 
 };
 
@@ -115,10 +125,15 @@ inputText.addEventListener("input", function(e) {
   let myText = e.target.value;
 
   if (myText == newWord){
+
+    if (newWord == "start"){
+    startGame();}
+
+    else{
     updateScore();
     addWordToDOM();
     resetText();
-  }
+    }}
 });
 
 //hides the settingsbar.
@@ -134,15 +149,14 @@ settingsbtn.addEventListener("click", function() {
   }
 });
 
-difficulty.addEventListener("change", function(e){
-  let value = e.target.value;
-  changeDifficulty(value);
+  difficulty.addEventListener("change", function(e){
+    let value = e.target.value;
+    changeDifficulty(value);
 });
 
 //the countdown timer. 
 function timer(){
   time--;
-  console.log(time);
   timerText.textContent = `${time}s`;
 
   //if timer is 0 or less, stop the timer and disable the inputfield. 
