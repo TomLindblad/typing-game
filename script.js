@@ -16,6 +16,7 @@ let countSpeed = 1000; // speed of the countdown in milliseconds.
 let ishidden = false; // bool if settingsmenu is or is not hidden. 
 let countdown;
 let newWord = "start"; //first word for starting the game. 
+let currentDifficulty; 
 
 // Array
 const words = [
@@ -54,6 +55,7 @@ function addWordToDOM(){
   newWord = Math.floor(Math.random() * words.length); 
   newWord = words[newWord];
   wordText.textContent = newWord; 
+  wordText.style.color = "#ffde17";
 }
 
 //updates the score and adds the extra seconds.
@@ -72,7 +74,8 @@ function resetText(){
 function changeDifficulty(value){
   switch (value) {
     case "easy": 
-      //countSpeed = 1000; 
+      //countSpeed = 1000;
+      currentDifficulty = "easy" 
       wordText.style.transform = "rotateY(0deg)"
       inputText.style.color = "black";
       scoreGain = 1;
@@ -80,6 +83,7 @@ function changeDifficulty(value){
       break;
     case "medium": 
       //countSpeed = 600;
+      currentDifficulty = "medium";
       wordText.style.transform = "rotateY(0deg)"
       inputText.style.color = "black";
       scoreGain = 2;
@@ -87,6 +91,7 @@ function changeDifficulty(value){
       break;
     case "hard": 
       //countSpeed = 300;
+      currentDifficulty = "hard"
       wordText.style.transform = "rotateY(180deg)"
       inputText.style.color = "white";
       scoreGain = 3;
@@ -95,7 +100,6 @@ function changeDifficulty(value){
 }
   //clearInterval(countdown);
   //countdown = setInterval(timer, countSpeed);
-
 };
 
 function gameOver(){
@@ -123,6 +127,17 @@ function gameOver(){
 // Eventlistener checking if the input = the word
 inputText.addEventListener("input", function(e) {
   let myText = e.target.value;
+
+  //checking if current difficulty is medium. If medium only shows the new word if the inputfield is empty. 
+  if(currentDifficulty == "medium" && inputText.value !== ""){
+    wordText.style.color = "#6026ff";
+    console.log("no word!")
+  }
+
+  else if (currentDifficulty == "medium"){
+    wordText.style.color = "#ffde17";
+    console.log("word!")
+  }
 
   if (myText == newWord){
 
