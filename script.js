@@ -8,11 +8,12 @@ const settings = document.getElementById("settings"); //settings menu.
 const restartScreen = document.getElementById("end-game-container"); // Game over screen.
 const difficulty = document.getElementById("difficulty"); //difficulty input.
 
-let score = 0;
-let time = 5; //starttime.
+let score = 0; //current score
+let scoreGain = 1; //score gained when right word is written. 
+let time = 10; //starttime.
 let countSpeed = 1000; // speed of the countdown in milliseconds. 
 let ishidden = false; // bool if settingsmenu is or is not hidden. 
-
+let countdown;
 
 // Array
 const words = [
@@ -37,8 +38,13 @@ const words = [
   "north",
 ];
 
-let countdown = setInterval(timer, countSpeed);
-addWordToDOM();
+startGame();
+
+
+function startGame(){
+  countdown = setInterval(timer, countSpeed);
+  addWordToDOM();
+}
 
 function addWordToDOM(){
   newWord = Math.floor(Math.random() * words.length); 
@@ -49,9 +55,9 @@ function addWordToDOM(){
 
 //updates the score and adds the extra seconds.
 function updateScore(){
-  score++;
+  score = score + scoreGain;
   scoreText.textContent = score;
-  time = time+5;
+  time = time + 5;
   timerText.textContent = `${time}s`;
 }
 
@@ -63,19 +69,23 @@ function resetText(){
 function changeDifficulty(value){
   switch (value) {
     case "easy": 
-      console.log("easy");
-      countSpeed = 1500; 
+      countSpeed = 1000; 
       break;
     case "medium": 
-      console.log("normal");
-      countSpeed = 1000;
+      //countSpeed = 600;
+      scoreGain = 2;
       break;
     case "hard": 
-      console.log("hard");
-      countSpeed = 100;
+      //countSpeed = 300;
+      wordText.style.transform = "rotateY(180deg)"
+      inputText.style.color = "white";
+      scoreGain = 3;
       break;
 }
   console.log(countSpeed)
+  clearInterval(countdown);
+  countdown = setInterval(timer, countSpeed);
+
 };
 
 function gameOver(){
