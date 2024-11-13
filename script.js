@@ -55,7 +55,7 @@ function addWordToDOM(){
   newWord = Math.floor(Math.random() * words.length); 
   newWord = words[newWord];
   wordText.textContent = newWord; 
-  wordText.style.color = "#ffde17";
+  wordText.style.color = "#ffde17"; //changes the color back yellow if you play on medium difficulty. 
 }
 
 //updates the score and adds the extra seconds.
@@ -73,7 +73,7 @@ function resetText(){
 
 function changeDifficulty(value){
   switch (value) {
-    case "easy": 
+    case "easy": // ON EASY = EVERYTING BASIC
       //countSpeed = 1000;
       currentDifficulty = "easy" 
       wordText.style.transform = "rotateY(0deg)"
@@ -81,20 +81,20 @@ function changeDifficulty(value){
       scoreGain = 1;
       timeGain = 5;
       break;
-    case "medium": 
+    case "medium": // ON NORMAL = NEW WORD DISAPPERS WHEN YOU START TO WRITE. 
       //countSpeed = 600;
       currentDifficulty = "medium";
       wordText.style.transform = "rotateY(0deg)"
       inputText.style.color = "black";
-      scoreGain = 2;
+      scoreGain = 1;
       timeGain = 3;
       break;
-    case "hard": 
+    case "hard": // ON HARD = NEW WORD IS MIRRORED AND THE INPUT IS TRANSPARENT. 
       //countSpeed = 300;
       currentDifficulty = "hard"
       wordText.style.transform = "rotateY(180deg)"
       inputText.style.color = "white";
-      scoreGain = 3;
+      scoreGain = 1;
       timeGain = 3;
       break;
 }
@@ -131,12 +131,10 @@ inputText.addEventListener("input", function(e) {
   //checking if current difficulty is medium. If medium only shows the new word if the inputfield is empty. 
   if(currentDifficulty == "medium" && inputText.value !== ""){
     wordText.style.color = "#6026ff";
-    console.log("no word!")
   }
 
   else if (currentDifficulty == "medium"){
     wordText.style.color = "#ffde17";
-    console.log("word!")
   }
 
   if (myText == newWord){
