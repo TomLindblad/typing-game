@@ -125,6 +125,11 @@ input {
   justify-content: center;
   flex-direction: column;
   position: absolute;
+
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+
   top: 0;
   left: 0;
   width: 100%;

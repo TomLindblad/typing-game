@@ -38,8 +38,6 @@ const words = [
 const countdown = setInterval(timer, countSpeed);
 addWordToDOM();
 
-
-
 function addWordToDOM(){
   newWord = Math.floor(Math.random() * words.length); 
   newWord = words[newWord];
@@ -68,6 +66,13 @@ function gameOver(){
   restartScreen.style.display = "block";
   let btn = document.createElement("button");
   btn.innerHTML = "Restart";
+  let h2 = document.createElement("h2");
+  h2.textContent = "GAMEOVER";
+  let h1 = document.createElement("h1");
+  h1.textContent = `Your score: ${score}`;
+
+  restartScreen.appendChild(h2);
+  restartScreen.appendChild(h1);
   restartScreen.appendChild(btn);
 
   btn.addEventListener("click", function(){
@@ -75,7 +80,8 @@ function gameOver(){
   });
 }
 
-inputText.addEventListener("input", function( e) {
+// Eventlistener checking if the input = the word
+inputText.addEventListener("input", function(e) {
   let myText = e.target.value;
 
   if (myText == newWord){
